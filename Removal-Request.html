@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Removal Request - Content Removal Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating Background Shapes */
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(30px) rotate(240deg); }
+        }
+
+        /* Glass Morphism */
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            border: none;
+            font-size: 0.95rem;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .form-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .form-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.75rem;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .label-icon {
+            color: #8b5cf6;
+            font-size: 1rem;
+        }
+
+        .required::after {
+            content: " *";
+            color: #ef4444;
+        }
+
+        .helper-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 0.25rem;
+            font-style: italic;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Custom Dropdown */
+        .custom-select {
+            position: relative;
+        }
+
+        .custom-select-trigger {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .custom-select-trigger:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .custom-select-trigger.active {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .custom-select-arrow {
+            transition: transform 0.3s;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .custom-select-trigger.active .custom-select-arrow {
+            transform: rotate(180deg);
+        }
+
+        .custom-select-options {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            left: 0;
+            right: 0;
+            background: rgba(15, 12, 41, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            max-height: 300px;
+            overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+        }
+
+        .custom-select-options.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .custom-select-option {
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: white;
+        }
+
+        .custom-select-option:hover {
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .custom-select-option.selected {
+            background: rgba(139, 92, 246, 0.3);
+            color: #8b5cf6;
+        }
+
+        .option-icon {
+            width: 24px;
+            text-align: center;
+            color: #8b5cf6;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1.5rem;
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Info Panel */
+        .info-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+        }
+
+        .info-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.25rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .info-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            color: white;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .info-text h4 {
+            margin-bottom: 0.5rem;
+            color: white;
+            font-weight: 600;
+        }
+
+        .info-text p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Thank You Modal */
+        .thank-you-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .thank-you-modal.show {
+            display: flex;
+        }
+
+        .thank-you-content {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 500px;
+            animation: successAnimation 0.5s ease;
+        }
+
+        @keyframes successAnimation {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: #10b981;
+            margin-bottom: 1.5rem;
+        }
+
+        .thank-you-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .thank-you-message {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .close-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            background: rgba(15, 12, 41, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-icon {
+            font-size: 1.5rem;
+        }
+
+        .toast.success .toast-icon {
+            color: #10b981;
+        }
+
+        .toast.error .toast-icon {
+            color: #ef4444;
+        }
+
+        .toast-message {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: white;
+        }
+
+        .toast-text {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .form-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .form-title {
+                font-size: 1.75rem;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .header-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .btn {
+                padding: 0.625rem 1rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Shapes -->
+    <div class="floating-shapes">
+        <div class="shape" style="width: 300px; height: 300px; top: 10%; left: 10%; animation-delay: 0s;"></div>
+        <div class="shape" style="width: 200px; height: 200px; top: 60%; right: 10%; animation-delay: 5s;"></div>
+        <div class="shape" style="width: 150px; height: 150px; bottom: 10%; left: 50%; animation-delay: 10s;"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <i class="fas fa-shield-alt logo-icon"></i>
+            <span class="logo-text">Removal Portal</span>
+        </div>
+        <div class="header-buttons">
+            <a href="index1.html" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <a href="faq-need.html" class="btn btn-primary">
+                <i class="fas fa-question-circle"></i> FAQ
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content" style="display: grid; grid-template-columns: 1fr 400px; gap: 2rem;">
+            <!-- Removal Request Form -->
+            <div class="form-container">
+                <div class="form-header">
+                    <h1 class="form-title">Content Removal Request</h1>
+                    <p class="form-subtitle">Request the removal of content from our movie download platform</p>
+                </div>
+
+                <form name="removal-request" method="POST" data-netlify="true">
+                    <div class="form-group">
+                        <label for="movieTitle" class="form-label required">
+                            <i class="fas fa-video label-icon"></i>
+                            Movie Title
+                        </label>
+                        <input type="text" id="movieTitle" name="movieTitle" class="form-control" placeholder="Enter the exact movie title" required>
+                        <p class="helper-text">Please provide the exact title of the movie you want removed</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contentLink" class="form-label required">
+                            <i class="fas fa-link label-icon"></i>
+                            Content Link
+                        </label>
+                        <input type="url" id="contentLink" name="contentLink" class="form-control" placeholder="https://yoursite.com/movie/download-link" required>
+                        <p class="helper-text">Provide the direct link to the content on our website</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="removalReason" class="form-label required">
+                            <i class="fas fa-exclamation-triangle label-icon"></i>
+                            Reason for Removal
+                        </label>
+                        <div class="custom-select" id="reasonSelect">
+                            <div class="custom-select-trigger">
+                                <span class="select-value">Select reason for removal</span>
+                                <i class="fas fa-chevron-down custom-select-arrow"></i>
+                            </div>
+                            <div class="custom-select-options">
+                                <div class="custom-select-option" data-value="copyright">
+                                    <i class="fas fa-copyright option-icon"></i>
+                                    <span>Copyright Infringement</span>
+                                </div>
+                                <div class="custom-select-option" data-value="inappropriate">
+                                    <i class="fas fa-ban option-icon"></i>
+                                    <span>Inappropriate Content</span>
+                                </div>
+                                <div class="custom-select-option" data-value="personal">
+                                    <i class="fas fa-user-shield option-icon"></i>
+                                    <span>Personal Request</span>
+                                </div>
+                                <div class="custom-select-option" data-value="duplicate">
+                                    <i class="fas fa-copy option-icon"></i>
+                                    <span>Duplicate Content</span>
+                                </div>
+                                <div class="custom-select-option" data-value="other">
+                                    <i class="fas fa-ellipsis-h option-icon"></i>
+                                    <span>Other</span>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="removalReason" name="removalReason" required>
+                        <p class="helper-text">Choose the primary reason for requesting removal</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description" class="form-label">
+                            <i class="fas fa-comment label-icon"></i>
+                            Additional Description
+                        </label>
+                        <textarea id="description" name="description" class="form-control" placeholder="Provide any additional details or explanation..." rows="4"></textarea>
+                        <p class="helper-text">Optional: Add more context about your removal request</p>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="userName" class="form-label required">
+                                <i class="fas fa-user label-icon"></i>
+                                Your Name
+                            </label>
+                            <input type="text" id="userName" name="userName" class="form-control" placeholder="Enter your full name" required>
+                            <p class="helper-text">Your real name for verification purposes</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="userEmail" class="form-label required">
+                                <i class="fas fa-envelope label-icon"></i>
+                                Email Address
+                            </label>
+                            <input type="email" id="userEmail" name="userEmail" class="form-control" placeholder="your.email@example.com" required>
+                            <p class="helper-text">We'll use this to contact you about your request</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userPhone" class="form-label">
+                            <i class="fas fa-phone label-icon"></i>
+                            Phone Number
+                        </label>
+                        <input type="tel" id="userPhone" name="userPhone" class="form-control" placeholder="+1 (555) 123-4567">
+                        <p class="helper-text">Optional: For urgent contact regarding your request</p>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> Submit Removal Request
+                    </button>
+                </form>
+            </div>
+
+            <!-- Information Panel -->
+            <aside class="info-panel">
+                <h2 class="info-title">Removal Process</h2>
+                <ul class="info-list">
+                    <li class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="info-text">
+                            <h4>Verification</h4>
+                            <p>We verify the content and your request details before processing.</p>
+                        </div>
+                    </li>
+                    <li class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="info-text">
+                            <h4>Processing Time</h4>
+                            <p>Removal requests are typically processed within 24-48 hours.</p>
+                        </div>
+                    </li>
+                    <li class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="info-text">
+                            <h4>Notification</h4>
+                            <p>You'll receive email confirmation once the content is removed.</p>
+                        </div>
+                    </li>
+                    <li class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="info-text">
+                            <h4>Legal Compliance</h4>
+                            <p>All requests are handled in accordance with copyright laws and our policies.</p>
+                        </div>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Thank You Modal -->
+    <div class="thank-you-modal" id="thankYouModal">
+        <div class="thank-you-content">
+            <i class="fas fa-check-circle success-icon"></i>
+            <h2 class="thank-you-title">Request Submitted!</h2>
+            <p class="thank-you-message">
+                Your content removal request has been successfully submitted. Our team will review it and take appropriate action within 24-48 hours.
+            </p>
+            <button class="close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="toast-icon fas"></i>
+        <div class="toast-message">
+            <div class="toast-title"></div>
+            <div class="toast-text"></div>
+        </div>
+    </div>
+
+    <script>
+        // Custom Select Dropdown Class
+        class CustomSelect {
+            constructor(element) {
+                this.element = element;
+                this.trigger = element.querySelector('.custom-select-trigger');
+                this.options = element.querySelector('.custom-select-options');
+                this.hiddenInput = element.querySelector('input[type="hidden"]');
+                this.valueElement = this.trigger.querySelector('.select-value');
+                this.isOpen = false;
+
+                this.init();
+            }
+
+            init() {
+                this.trigger.addEventListener('click', () => this.toggle());
+
+                const optionElements = this.options.querySelectorAll('.custom-select-option');
+                optionElements.forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.selectOption(option);
+                    });
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!this.element.contains(e.target)) {
+                        this.close();
+                    }
+                });
+            }
+
+            toggle() {
+                this.isOpen ? this.close() : this.open();
+            }
+
+            open() {
+                this.isOpen = true;
+                this.trigger.classList.add('active');
+                this.options.classList.add('show');
+            }
+
+            close() {
+                this.isOpen = false;
+                this.trigger.classList.remove('active');
+                this.options.classList.remove('show');
+            }
+
+            selectOption(option) {
+                const value = option.dataset.value;
+                const text = option.querySelector('span').textContent;
+
+                // Update hidden input
+                this.hiddenInput.value = value;
+                this.hiddenInput.dispatchEvent(new Event('change'));
+
+                // Update display
+                this.valueElement.textContent = text;
+
+                // Update selected state
+                this.options.querySelectorAll('.custom-select-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                option.classList.add('selected');
+
+                this.close();
+            }
+        }
+
+        // Initialize custom select
+        const reasonSelect = new CustomSelect(document.getElementById('reasonSelect'));
+
+        // Toast Notification System
+        function showToast(title, text, type = 'success') {
+            const toast = document.getElementById('toast');
+            const icon = toast.querySelector('.toast-icon');
+            const titleEl = toast.querySelector('.toast-title');
+            const textEl = toast.querySelector('.toast-text');
+
+            toast.className = `toast ${type}`;
+            icon.className = `toast-icon fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}`;
+            titleEl.textContent = title;
+            textEl.textContent = text;
+
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
+        }
+
+        // Form Validation and Submission
+        document.querySelector('form[name="removal-request"]').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Validate required fields
+            const movieTitle = document.getElementById('movieTitle').value.trim();
+            const contentLink = document.getElementById('contentLink').value.trim();
+            const removalReason = document.getElementById('removalReason').value;
+            const userName = document.getElementById('userName').value.trim();
+            const userEmail = document.getElementById('userEmail').value.trim();
+
+            if (!movieTitle || !contentLink || !removalReason || !userName || !userEmail) {
+                showToast('Validation Error', 'Please fill in all required fields', 'error');
+                return;
+            }
+
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(userEmail)) {
+                showToast('Invalid Email', 'Please enter a valid email address', 'error');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+
+            // Show loading state
+            submitBtn.innerHTML = '<span class="loading"></span> Submitting...';
+            submitBtn.disabled = true;
+
+            // For Netlify forms, we can show success immediately since Netlify handles the submission
+            setTimeout(() => {
+                // Show success modal
+                const modal = document.getElementById('thankYouModal');
+                modal.classList.add('show');
+
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+
+                showToast('Success', 'Your removal request has been submitted', 'success');
+            }, 1000);
+        });
+
+        // Close modal function
+        function closeModal() {
+            const modal = document.getElementById('thankYouModal');
+            modal.classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('thankYouModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add smooth scroll behavior
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
